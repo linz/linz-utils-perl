@@ -313,7 +313,7 @@ sub _loadConfiguration
 sub _loadFile
 {
   my ($cfg,$cfgf,$extra) = @_;
-  open(my $f, $cfgf ) || die "Cannot open configuration file $cfgf\n";
+  open(my $f, $cfgf ) || die "Cannot open configuration file $cfgf: $!\n";
   while( my $rec = <$f>)
   {
      next if $rec =~ /^\s*(\#|$)/;
