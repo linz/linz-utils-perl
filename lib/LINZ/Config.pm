@@ -2,7 +2,7 @@
 #
 # $Id$
 #
-# LINZ Config Perl package
+# linz_bde_loader -  LINZ BDE loader for PostgreSQL
 #
 # Copyright 2011 Crown copyright (c)
 # Land Information New Zealand and the New Zealand Government.
@@ -37,6 +37,8 @@ Includes support for alternative configurations and testing.
   $value = $cfg->some_item('default_value');
   $value= $cfg->get('some_item');
   $value= $cfg->get('some_item','default_value');
+
+  print "Ok for $item\n" if $cfg->has($item);
 
   foreach my $k ( $cfg->keys ){ ... }
 
@@ -219,6 +221,13 @@ sub AUTOLOAD
    return $self->get($var,$default);
 }
 
+sub has
+{
+    my($self,$var) = @_;
+    $var = lc($var) if ! $self->{_case_sensitive};
+    return exists $self->{$var};
+}
+    
 sub get
 {
    my ($self,$var,$default) = @_;
@@ -317,8 +326,7 @@ sub _loadFile
   while( my $rec = <$f>)
   {
      next if $rec =~ /^\s*(\#|$)/;
-     next if $rec !~ /^\s*(\S+)(?:\s+(\S.*?))?\s*$/;
-     my($k,$v) = ($1,$2);
+     my ($k,$v) = ($1,$2) if $rec =~ /^\s*(\S+)(?:\s+(\S.*?))?\s*$/;
 
      # Configuration items starting with _ are reserved
      die "Invalid configuration item name \"$k\" in $cfgf\n"
