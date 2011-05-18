@@ -10,7 +10,7 @@ Vcs-Svn: git://github.com/linz/linz_config_perl.git
 Vcs-Browser: https://github.com/linz/linz_config_perl
 
 Package: liblinz-config-perl
-Architecture: any
+Architecture: all
 Depends: ${misc:Depends}, ${perl:Depends}
 Recommends:
 Description: Perl modules to preform simple logging to file and load
