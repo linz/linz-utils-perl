@@ -1,4 +1,4 @@
-Source: liblinz-config-perl
+Source: liblinz-utils-perl
 Section: perl
 Priority: optional
 Build-Depends: debhelper (>= 8)
@@ -6,10 +6,10 @@ Build-Depends-Indep: perl (>= 5.8),
  libmodule-build-perl
 Maintainer: Jeremy Palmer (LINZ) <jpalmer@linz.govt.nz>
 Homepage: http://www.linz.govt.nz
-Vcs-Svn: git://github.com/linz/linz_config_perl.git
-Vcs-Browser: https://github.com/linz/linz_config_perl
+Vcs-Svn: git://github.com/linz/linz_utils_perl.git
+Vcs-Browser: https://github.com/linz/linz_utils_perl
 
-Package: liblinz-config-perl
+Package: liblinz-utils-perl
 Architecture: all
 Depends: ${misc:Depends}, ${perl:Depends}
 Recommends:
