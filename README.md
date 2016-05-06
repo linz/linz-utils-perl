@@ -3,6 +3,30 @@
 Contains Modules to preform simple logging to file and load configuration
 information from a configuration file. 
 
+## Simple install
+
+```shell
+perl Build.PL
+./Build install
+```
+
+## Advanced install options
+
+The build system is using perl Module::Build. A full list of the building
+options are available run:
+
+```shell
+./Build help
+```
+
+A more complex example involving specific install directories could something
+like:
+
+```shell
+perl Build.PL --prefix=/usr/local
+./Build install
+```
+
 ## License
 
 This program is released under the terms of the new BSD license. See the 
