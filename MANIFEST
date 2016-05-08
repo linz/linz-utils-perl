@@ -4,6 +4,7 @@ debian/compat
 debian/control
 debian/copyright
 debian/rules
+debian/source/format
 lib/LINZ/Config.pm
 lib/LINZ/Log.pm
 LICENSE
