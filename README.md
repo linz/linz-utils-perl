@@ -1,4 +1,4 @@
-# BDE Util Package
+# LINZ Util Perl Package
 
 Contains Modules to preform simple logging to file and load configuration
 information from a configuration file. 
