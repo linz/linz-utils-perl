@@ -3,3 +3,7 @@ MYMETA.json
 MYMETA.yml
 _build/
 blib/
+LINZ-Utils-v*/
+META.json
+META.yml
+Makefile
