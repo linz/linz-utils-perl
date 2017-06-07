@@ -19,6 +19,7 @@
 \bBuild$
 \bBuild.bat$
 \b_build
+\bLINZ-Utils-v.*
 
 # Avoid Devel::Cover generated files
 \bcover_db
@@ -41,3 +42,5 @@
 \bLINZ-Utils-[\d\.\_]+
 ^MYMETA\.yml$
 ^MYMETA\.json$
+^META\.yml$
+^META\.json$
