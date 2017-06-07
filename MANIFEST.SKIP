@@ -38,3 +38,5 @@
 \B\._
 # Avoid archives of this distribution
 \bLINZ-Utils-[\d\.\_]+
+^MYMETA\.yml$
+^MYMETA\.json$
