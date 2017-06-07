@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/linz/linz_utils_perl.svg?branch=master)](https://travis-ci.org/linz/linz_utils_perl)
+
 # LINZ Util Perl Package
 
 Contains Modules to preform simple logging to file and load configuration
