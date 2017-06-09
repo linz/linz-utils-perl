@@ -9,7 +9,7 @@ perl:
   - "5.12"
 
 script:
-  - perl Makefile.PL
+  - ./configure
   - make test
   - make dist
   - make distcheck

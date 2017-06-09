@@ -1,3 +1,4 @@
+*.tar.gz
 Build
 MYMETA.json
 MYMETA.yml
@@ -7,4 +8,4 @@ LINZ-Utils-v*/
 META.json
 META.yml
 Makefile
-*.tar.gz
+Makefile.PL
