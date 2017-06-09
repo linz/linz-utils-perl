@@ -43,5 +43,3 @@
 \bLINZ-Utils-[\d\.\_]+
 ^MYMETA\.yml$
 ^MYMETA\.json$
-^META\.yml$
-^META\.json$
