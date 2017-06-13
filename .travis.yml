@@ -8,8 +8,14 @@ perl:
   - "5.14"
   - "5.12"
 
+before_install:
+  # These are needed to test debian package build
+  - sudo apt-get install debhelper fakeroot
+
 script:
   - ./configure
   - make test
   - make dist
   - make distcheck
+  # Test building deb package
+  - git clean -dxf && dpkg-buildpackage -b -uc -us
