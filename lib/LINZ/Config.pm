@@ -292,6 +292,7 @@ sub _loadConfiguration
   foreach my $k (CORE::keys %$cfg)
   {
      my $v = $cfg->{$k};
+     next if not defined $v;
      my $i = 10;
      my $v0 = $v;
      while( $i-- && $v =~ s/(\{\{(?:env\:)?\w+\}\})|{((?:env\:)?\w+)\}/$1 ? $1 : $cfg->_get2($2)/ieg )
@@ -305,6 +306,7 @@ sub _loadConfiguration
   foreach my $k (CORE::keys %$cfg)
   {
      my $v = $cfg->{$k};
+     next if not defined $v;
      $v =~ s/\{\{/{/g;
      $v =~ s/\}\}/}/g;
      $cfg->{$k} = $v;
@@ -330,7 +332,7 @@ sub _loadFile
      die "Invalid configuration item name \"$k\" in $cfgf\n"
         if $k =~ /^_/;
 
-     if( $v =~ /^\<\<\s*(\w+)$/ )
+     if( defined $v && $v =~ /^\<\<\s*(\w+)$/ )
      {
 	my $re = "^\\s*$1\\s*\$";
 	$v = '';
