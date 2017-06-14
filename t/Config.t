@@ -5,7 +5,9 @@ use Test::Exception;
 
 use LINZ::Config;
 
-my $cfg = new LINZ::Config; # reads t/Config.cfg (default path)
+my $cfg = new LINZ::Config; # reads Config.cfg (default path follows executable name)
+
+# Test values access via ->
 
 is($cfg->k1, 'v1', 'reads single-word value (k1)');
 is($cfg->k1('def'), 'v1', 'reads single-word value not applying default (k1)');
@@ -14,14 +16,21 @@ is($cfg->k3, "v3\nis\nmultiline\n", 'reads multi-line value (k3)');
 is($cfg->k4, 'v4 appears twice', 'reads overridden value (k4)');
 is($cfg->k5, 'v5 has # no comment', 'reads value with hash char (k5)');
 
+# Test accessing missing key
+
 throws_ok { $cfg->kmissing }
   qr/Configuration item "kmissing" is missing/,
   'missing key caught';
 ok(! $cfg->has('kmissing'), 'knows when key does not exist (kmissing)' );
 is($cfg->kmissing('def'), 'def', 'applies default to missing key (kmissing)');
+ok($cfg->has('kmissing'), 'missing key is created after getting with default (kmissing)' );
+is($cfg->kmissing, 'def', 'missing key has assigned-default value' );
+
+# Void key
 
 is($cfg->kvoid, undef, 'reads key with no value (kvoid)');
 ok($cfg->has('kvoid'), 'knows key with no value exists' );
+is($cfg->kvoid('def'), undef, 'does not assign a default to value-less key (kvoid)');
 
 # SKIP: {
 #   my $TODO = <<EOT;
