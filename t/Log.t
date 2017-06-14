@@ -61,8 +61,34 @@ ok( ! $log->warn("3"), "can write info to error-level log" );
 throws_ok { $log->die("4"); } qr/4/, 'dies with message on log->die';
 $log->close();
 $line = <$fh>; like( $line, qr/ERROR: 4/, "found error in error-level log" );
-$line = <$fh>; is( $line, undef ); # EOF
 
-# TODO: rotate_log, rotate_size
+# Test logs rotation
+my $size = -s $logfname; $size--;
+ok($log = LINZ::Log->new($logfname, {level => 'DEBUG',
+  rotate_size => $size, rotate_log => 1}),
+  "can create rotate-enabled log");
+ok( $log->info("rotated"), "can write info rotate-enabled log" );
+$log->close();
+$line = <$fh>; is( $line, undef, "new log line did not get into rotated log" );
+open($fh, "<", $logfname); # reopen
+$line = <$fh>; like( $line, qr/INFO: rotated/, "new line got in new logfile" );
+close($fh);
 
-done_testing(31);
+# Check content of rotated file and unlink it
+my $logfname_rotated = $logfname;
+$logfname_rotated =~ s|/Log\.t|/Log_001.t|;
+#print "XXXX ${logfname_rotated}\n";
+ok( -e $logfname_rotated, "rotated file exists" );
+open($fh, "<", $logfname_rotated);
+$line = <$fh>;
+my $verified = like( $line, qr/DEBUG: 1$/,
+  "found debug in the beginning of rotated log" );
+close($fh);
+if ( $verified ) {
+  # don't unlink if not verified
+  unlink($logfname_rotated)
+} else {
+  print "WARNING: file $logfname_rotated was not removed due to unexpected content\n";
+}
+
+done_testing(36);
