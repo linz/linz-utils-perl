@@ -86,4 +86,18 @@ ok($cfg->has('K4'), 'has K4');
 ok($cfg->has('k5'), 'has k5');
 ok($cfg->has('K5'), 'has K5 (case-insensitive)');
 
-done_testing();
+# Test custom configpath
+
+$options = { _configpath=>'~/Config.cfg.extra', };
+$cfg = new LINZ::Config( $options );
+is($cfg->k4, 'k4 extra', 'reads k4 in extra');
+ok(! $cfg->has('k1'), 'extra config has no k1');
+
+# Test extra config
+
+$options = { _configextra=>'extra', };
+$cfg = new LINZ::Config( $options );
+is($cfg->k1, 'v1', 'finds k1 in base config');
+is($cfg->k4, 'k4 extra', 'k4 in extra overrides base config');
+
+done_testing(51);
