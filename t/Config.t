@@ -5,7 +5,40 @@ use Test::Exception;
 
 use LINZ::Config;
 
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+$year+=1900;
+$mon+=1;
+
 my $cfg = new LINZ::Config; # reads Config.cfg (default path follows executable name)
+
+# Test built-in variables
+
+ok($cfg->has('_runtime'), 'has _runtime');
+is($cfg->_runtime, sprintf("%d%02d%02d%02d%02d%02d",
+  $year, $mon, $mday, $hour, $min, $sec), '_runtime is correct');
+ok($cfg->has('_runtimestr'), 'has _runtimestr');
+is($cfg->_runtimestr, sprintf("%d-%02d-%02d %02d:%02d:%02d",
+  $year, $mon, $mday, $hour, $min, $sec), '_runtimestr is correct');
+ok($cfg->has('_year'), 'has _year');
+is($cfg->_year, $year, "_year is correct");
+ok($cfg->has('_month'), 'has _month');
+is($cfg->_month, sprintf("%02d", $mon), '_month is correct');
+ok($cfg->has('_day'), 'has _day');
+is($cfg->_day, sprintf("%02d", $mday), '_day is correct');
+ok($cfg->has('_hour'), 'has _hour');
+is($cfg->_hour, sprintf("%02d", $hour), '_hour is correct');
+ok($cfg->has('_minute'), 'has _minute');
+is($cfg->_minute, sprintf("%02d", $min), '_minute is correct');
+ok($cfg->has('_second'), 'has _second');
+is($cfg->_second, sprintf("%02d", $sec), '_second is correct');
+ok($cfg->has('_configdir'), 'has _configdir');
+is($cfg->_configdir, 't', '_configdir is correct');
+ok($cfg->has('_homedir'), 'has _homedir');
+is($cfg->_homedir, 't', '_homedir is correct');
+ok($cfg->has('_config_file'), 'has _config_file');
+is($cfg->_config_file, 't/Config.cfg', '_config_file is correct');
+ok($cfg->has('_hostname'), 'has _hostname');
+is($cfg->_hostname, Sys::Hostname::hostname(), '_hostname is correct');
 
 # Test values access via ->
 
