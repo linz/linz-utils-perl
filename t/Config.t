@@ -15,6 +15,7 @@ is($cfg->k2, 'v2 has spaces', 'reads multi-word value (k2)');
 is($cfg->k3, "v3\nis\nmultiline\n", 'reads multi-line value (k3)');
 is($cfg->k4, 'v4 appears twice', 'reads overridden value (k4)');
 is($cfg->k5, 'v5 has # no comment', 'reads value with hash char (k5)');
+is($cfg->K4, 'V4', 'case sensitive by default (K4)');
 
 # Test accessing missing key
 
@@ -39,5 +40,16 @@ is($cfg->kvoid('def'), undef, 'does not assign a default to value-less key (kvoi
 # EOT
 #   is($cfg->kvoid('def'), 'def', 'applies default to no-value key (kvoid)');
 # }
+
+# Test case-insensitive operations
+
+my $options = { _case_sensitive=>0, };
+$cfg = new LINZ::Config( $options );
+is($cfg->k4, 'V4', 'case insensitive if requested (k4)');
+is($cfg->K4, 'V4', 'case insensitive if requested (K4)');
+ok($cfg->has('k4'), 'has k4');
+ok($cfg->has('K4'), 'has K4');
+ok($cfg->has('k5'), 'has k5');
+ok($cfg->has('K5'), 'has K5 (case-insensitive)');
 
 done_testing();
