@@ -108,4 +108,4 @@ $cfg->reload( { _configextra=>'extra', _casesensitive=>0 } );
 is($cfg->K4, 'k4 extra', 'K4 from extra config (case-insensitive, reload)');
 }
 
-done_testing();
+done_testing(56);
