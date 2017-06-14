@@ -16,6 +16,7 @@ is($cfg->k3, "v3\nis\nmultiline\n", 'reads multi-line value (k3)');
 is($cfg->k4, 'v4 appears twice', 'reads overridden value (k4)');
 is($cfg->k5, 'v5 has # no comment', 'reads value with hash char (k5)');
 is($cfg->K4, 'V4', 'case sensitive by default (K4)');
+is($cfg->krefrefref, 'v1 ref ref ref', 'recursively resolves refs');
 
 # Test accessing missing key
 
