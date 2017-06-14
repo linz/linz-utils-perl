@@ -152,8 +152,14 @@ sub new
 
   my $cfg = bless {}, $class;
 
-  my %opthash =  @opts;
-  my $options = ref($opts[0]) eq 'HASH' ? $opts[0] : \%opthash;
+  my $options;
+  if ( ref($opts[0]) eq 'HASH' ) {
+    $options = $opts[0];
+  } else {
+    # TODO: drop as deprecated way to pass options to constructor
+    my %opthash = @opts;
+    $options = \%opthash;
+  }
 
   $cfg->{_case_sensitive} = 
        ! defined($options->{_case_sensitive}) || $options->{_case_sensitive} 
