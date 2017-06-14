@@ -99,5 +99,21 @@ $options = { _configextra=>'extra', };
 $cfg = new LINZ::Config( $options );
 is($cfg->k1, 'v1', 'finds k1 in base config');
 is($cfg->k4, 'k4 extra', 'k4 in extra overrides base config');
+is($cfg->K4, 'V4', 'K4 is found in base config');
 
-done_testing(51);
+# Test reload with alternative options
+
+TODO: {
+  local $TODO = "LINZ::Config::reload is bogus";
+$cfg = new LINZ::Config;
+is($cfg->k4, 'v4 appears twice', 'k4 from base config (reload)');
+$cfg->reload( { _casesensitive=>0 } );
+is($cfg->k4, 'V4', 'k4 insensitive from base config (reload)');
+$cfg->reload( { _configextra=>'extra' } );
+is($cfg->k4, 'k4 extra', 'k4 insensitive from extra config (reload)');
+is($cfg->K4, 'V4', 'K4 from base config (case-sensitive, reload)');
+$cfg->reload( { _configextra=>'extra', _casesensitive=>0 } );
+is($cfg->K4, 'k4 extra', 'K4 from extra config (case-insensitive, reload)');
+}
+
+done_testing();
