@@ -67,14 +67,6 @@ is($cfg->kvoid, undef, 'reads key with no value (kvoid)');
 ok($cfg->has('kvoid'), 'knows key with no value exists' );
 is($cfg->kvoid('def'), undef, 'does not assign a default to value-less key (kvoid)');
 
-# SKIP: {
-#   my $TODO = <<EOT;
-# handling of value-less keys is bogus,
-# see https://github.com/linz/linz_utils_perl/issues/12
-# EOT
-#   is($cfg->kvoid('def'), 'def', 'applies default to no-value key (kvoid)');
-# }
-
 # Test case-insensitive operations
 
 my $options = { _case_sensitive=>0, };
