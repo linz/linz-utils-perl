@@ -104,7 +104,7 @@ is($cfg->K4, 'V4', 'K4 is found in base config');
 # Test reload with alternative options
 
 TODO: {
-  local $TODO = "LINZ::Config::reload is bogus";
+  local $TODO = "See https://github.com/linz/linz_utils_perl/issues/13";
 $cfg = new LINZ::Config;
 is($cfg->k4, 'v4 appears twice', 'k4 from base config (reload)');
 $cfg->reload( { _casesensitive=>0 } );
