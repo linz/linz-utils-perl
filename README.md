@@ -31,19 +31,19 @@ perl Build.PL --prefix=/usr/local
 
 ## Install as a Debian package
 
-A binary debian package can be built with:
+A binary Debian package can be built with:
 
     dpkg-buildpackage -b -us -uc
 
 When successful (make sure to have libmodule-build-perl installed)
-it will create a .deb and a .changed files one directory above the
+it will create a .deb and a .changes files one directory above the
 root of this repository, something like:
 
     ../liblinz-utils-perl_<version>_*
 
 So then you can install it via:
 
-    dpkg --dry-run -i ../liblinz-utils-perl_*.deb
+    dpkg -i ../liblinz-utils-perl_*.deb
 
 ## License
 
