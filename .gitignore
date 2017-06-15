@@ -1,6 +1,7 @@
 *.tar.gz
 Build
 MANIFEST
+MANIFEST.bak
 MYMETA.json
 MYMETA.yml
 _build/
