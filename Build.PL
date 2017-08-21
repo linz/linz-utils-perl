@@ -23,12 +23,18 @@ my $requires = {
     'Sys::Hostname' => 0,
 };
 
+my $version = '1.0.0';
+if ( `which git` && -d '.git' ) {
+  $version = `git describe`;
+  chop($version);
+}
+
 my $build =  Module::Build->new(
     module_name        => 'LINZ::Utils',
     license            => 'bsd',
     dist_author        => 'LINZ',
     dist_abstract      => 'LINZ perl utility modules',
-    dist_version_from  => 'VERSION',
+    dist_version       => $version,
     sign               => 1,
     requires           => $requires,
     create_makefile_pl => 'small',
