@@ -1,8 +1,6 @@
 #!usr/bin/perl
 ################################################################################
 #
-# $Id$
-#
 # LINZ Utils Perl package
 #
 # Copyright 2011 Crown copyright (c)
@@ -18,17 +16,26 @@ use warnings;
 
 use Config;
 use Module::Build;
+use lib '.';
+use inc::MyBuilder;
 
 my $requires = {
     'Sys::Hostname' => 0,
 };
 
-my $build =  Module::Build->new(
+my $version = '1.0.0';
+if ( `which git` && -d '.git' ) {
+  $version = `git describe`;
+  chop($version);
+}
+
+
+my $build =  inc::MyBuilder->new(
     module_name        => 'LINZ::Utils',
     license            => 'bsd',
     dist_author        => 'LINZ',
     dist_abstract      => 'LINZ perl utility modules',
-    dist_version_from  => 'VERSION',
+    dist_version       => $version,
     sign               => 1,
     requires           => $requires,
     create_makefile_pl => 'small',
