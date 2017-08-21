@@ -16,6 +16,8 @@ use warnings;
 
 use Config;
 use Module::Build;
+use lib '.';
+use inc::MyBuilder;
 
 my $requires = {
     'Sys::Hostname' => 0,
@@ -27,7 +29,8 @@ if ( `which git` && -d '.git' ) {
   chop($version);
 }
 
-my $build =  Module::Build->new(
+
+my $build =  inc::MyBuilder->new(
     module_name        => 'LINZ::Utils',
     license            => 'bsd',
     dist_author        => 'LINZ',
