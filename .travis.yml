@@ -17,6 +17,8 @@ before_install:
     debhelper
     fakeroot
     libmodule-build-perl
+  # Install packages needed for testing
+  - cpanm Test::Cmd Test::Exception
 
 script:
   - ./configure
