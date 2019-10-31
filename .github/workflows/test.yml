@@ -1,0 +1,55 @@
+name: test
+
+on: [pull_request]
+
+jobs:
+
+  test:
+
+    name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            perl:
+              - "5.30"
+              - "5.28"
+              - "5.26"
+              - "5.24"
+              - "5.22"
+            os: [ ubuntu-18.04 ]
+    env:
+      APT: "apt-get -o Dpkg::Progress=0 -o Dpkg::Use-Pty=0"
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ matrix.perl }}
+    - name: Install dependencies
+      run: |
+        # Install dependencies
+        sudo ${APT} -qq install --no-install-recommends \
+            cpanminus \
+            debhelper \
+            fakeroot
+        cpanm Test::Cmd Test::Exception Module::Build
+    - name: Build
+      run: |
+        perl --version
+        ./configure
+        make
+    - name: Test build
+      run: |
+        make test
+    - name: Install
+      run: |
+        sudo -E make install
+    - name: Test distribution
+      run: |
+        make dist
+        make distcheck
+        make disttest
+    - name: Test packaging
+      run: |
+        make deb
+        sudo dpkg -i ../liblinz-utils-perl*.deb

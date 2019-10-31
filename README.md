@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/linz/linz_utils_perl.svg?branch=master)](https://travis-ci.org/linz/linz_utils_perl)
+[![Actions Status](https://github.com/linz/linz_utils_perl/workflows/test/badge.svg?branch=master)](https://github.com/linz/linz_utils_perl/actions)
 
 # LINZ Util Perl Package
 
