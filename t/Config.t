@@ -15,20 +15,34 @@ use warnings;
 
 use Test::More;
 use Test::Exception;
+use Time::Piece;
+use POSIX qw(strftime);
 
 use LINZ::Config;
 
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
-$year+=1900;
-$mon+=1;
-
+my $start_time = strftime "%Y%m%d%H%M%S", localtime;
 my $cfg = new LINZ::Config; # reads Config.cfg (default path follows executable name)
+my $end_time = strftime "%Y%m%d%H%M%S", localtime;
 
 # Test built-in variables
 
 ok($cfg->has('_runtime'), 'has _runtime');
-is($cfg->_runtime, sprintf("%d%02d%02d%02d%02d%02d",
-  $year, $mon, $mday, $hour, $min, $sec), '_runtime is correct');
+
+cmp_ok($cfg->_runtime, '>=', $start_time, '_runtime not before start time');
+cmp_ok($cfg->_runtime, '<=', $end_time, '_runtime not after end time');
+
+# Set components from obtained string
+# Format is 20200205085825 (YYYYmmddHHMMSS)
+my $cfg_runtime = Time::Piece->strptime($cfg->_runtime, '%Y%m%d%H%M%S');
+my ($year, $mon, $mday, $hour, $min, $sec) = (
+  $cfg_runtime->year,
+  $cfg_runtime->mon,
+  $cfg_runtime->mday,
+  $cfg_runtime->hour,
+  $cfg_runtime->minute,
+  $cfg_runtime->second,
+);
+
 ok($cfg->has('_runtimestr'), 'has _runtimestr');
 is($cfg->_runtimestr, sprintf("%d-%02d-%02d %02d:%02d:%02d",
   $year, $mon, $mday, $hour, $min, $sec), '_runtimestr is correct');
@@ -121,4 +135,4 @@ $cfg->reload( { _configextra=>'extra', _casesensitive=>0 } );
 is($cfg->K4, 'k4 extra', 'K4 from extra config (case-insensitive, reload)');
 }
 
-done_testing(56);
+done_testing(57);
