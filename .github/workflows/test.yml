@@ -38,7 +38,8 @@ jobs:
         sudo ${APT} -qq install --no-install-recommends \
             cpanminus \
             debhelper \
-            fakeroot
+            fakeroot \
+            libtest-exception-perl
         cpanm Test::Cmd Test::Exception Module::Build
     - name: Build
       run: |
