@@ -51,7 +51,7 @@ jobs:
         make
     - name: Test build
       run: |
-        make test
+        make check RUNTESTFLAGS=--verbose
     - name: Install
       run: |
         sudo -E make install
