@@ -1,3 +1,9 @@
+liblinz-utils-perl (1.1.1-linz~bionic) bionic; urgency=medium
+
+  * New version
+
+ -- Victor Engmark <vengmark@linz.govt.nz>  Tue, 07 Dec 2021 01:49:44 +0000
+
 liblinz-utils-perl (1.1.0-1linz~trusty1) trusty; urgency=medium
 
   * New upstream version
