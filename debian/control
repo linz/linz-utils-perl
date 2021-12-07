@@ -16,4 +16,4 @@ Architecture: all
 Depends: ${misc:Depends}, ${perl:Depends}
 Recommends:
 Description: Perl modules to preform simple logging to file and load
- configuration information from a configuration file. 
+ configuration information from a configuration file.
