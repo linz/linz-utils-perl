@@ -1,4 +1,7 @@
-# BDE Util Package
+[![Build Status](https://travis-ci.org/linz/linz_utils_perl.svg?branch=master)](https://travis-ci.org/linz/linz_utils_perl)
+[![Actions Status](https://github.com/linz/linz_utils_perl/workflows/test/badge.svg?branch=master)](https://github.com/linz/linz_utils_perl/actions)
+
+# LINZ Util Perl Package
 
 Contains Modules to preform simple logging to file and load configuration
 information from a configuration file. 
@@ -26,6 +29,22 @@ like:
 perl Build.PL --prefix=/usr/local
 ./Build install
 ```
+
+## Install as a Debian package
+
+A binary Debian package can be built with:
+
+    dpkg-buildpackage -b -us -uc
+
+When successful (make sure to have libmodule-build-perl installed)
+it will create a .deb and a .changes files one directory above the
+root of this repository, something like:
+
+    ../liblinz-utils-perl_<version>_*
+
+So then you can install it via:
+
+    dpkg -i ../liblinz-utils-perl_*.deb
 
 ## License
 

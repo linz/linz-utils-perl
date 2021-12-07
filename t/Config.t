@@ -1,0 +1,140 @@
+#!/usr/bin/perl
+################################################################################
+#
+# Copyright 2011 Crown copyright (c)
+# Land Information New Zealand and the New Zealand Government.
+# All rights reserved
+#
+# This program is released under the terms of the new BSD license. See the
+# LICENSE file for more information.
+#
+################################################################################
+
+use strict;
+use warnings;
+
+use Test::More;
+use Test::Exception;
+use Time::Piece;
+use POSIX qw(strftime);
+
+use LINZ::Config;
+
+my $start_time = strftime "%Y%m%d%H%M%S", localtime;
+my $cfg = new LINZ::Config; # reads Config.cfg (default path follows executable name)
+my $end_time = strftime "%Y%m%d%H%M%S", localtime;
+
+# Test built-in variables
+
+ok($cfg->has('_runtime'), 'has _runtime');
+
+cmp_ok($cfg->_runtime, '>=', $start_time, '_runtime not before start time');
+cmp_ok($cfg->_runtime, '<=', $end_time, '_runtime not after end time');
+
+# Set components from obtained string
+# Format is 20200205085825 (YYYYmmddHHMMSS)
+my $cfg_runtime = Time::Piece->strptime($cfg->_runtime, '%Y%m%d%H%M%S');
+my ($year, $mon, $mday, $hour, $min, $sec) = (
+  $cfg_runtime->year,
+  $cfg_runtime->mon,
+  $cfg_runtime->mday,
+  $cfg_runtime->hour,
+  $cfg_runtime->minute,
+  $cfg_runtime->second,
+);
+
+ok($cfg->has('_runtimestr'), 'has _runtimestr');
+is($cfg->_runtimestr, sprintf("%d-%02d-%02d %02d:%02d:%02d",
+  $year, $mon, $mday, $hour, $min, $sec), '_runtimestr is correct');
+ok($cfg->has('_year'), 'has _year');
+is($cfg->_year, $year, "_year is correct");
+ok($cfg->has('_month'), 'has _month');
+is($cfg->_month, sprintf("%02d", $mon), '_month is correct');
+ok($cfg->has('_day'), 'has _day');
+is($cfg->_day, sprintf("%02d", $mday), '_day is correct');
+ok($cfg->has('_hour'), 'has _hour');
+is($cfg->_hour, sprintf("%02d", $hour), '_hour is correct');
+ok($cfg->has('_minute'), 'has _minute');
+is($cfg->_minute, sprintf("%02d", $min), '_minute is correct');
+ok($cfg->has('_second'), 'has _second');
+is($cfg->_second, sprintf("%02d", $sec), '_second is correct');
+ok($cfg->has('_configdir'), 'has _configdir');
+is($cfg->_configdir, 't', '_configdir is correct');
+ok($cfg->has('_homedir'), 'has _homedir');
+is($cfg->_homedir, 't', '_homedir is correct');
+ok($cfg->has('_config_file'), 'has _config_file');
+is($cfg->_config_file, 't/Config.cfg', '_config_file is correct');
+ok($cfg->has('_hostname'), 'has _hostname');
+is($cfg->_hostname, Sys::Hostname::hostname(), '_hostname is correct');
+
+# Test values access via ->
+
+is($cfg->k1, 'v1', 'reads single-word value (k1)');
+is($cfg->k1('def'), 'v1', 'reads single-word value not applying default (k1)');
+is($cfg->k2, 'v2 has spaces', 'reads multi-word value (k2)');
+is($cfg->k3, "v3\nis\nmultiline\n", 'reads multi-line value (k3)');
+is($cfg->k4, 'v4 appears twice', 'reads overridden value (k4)');
+is($cfg->k5, 'v5 has # no comment', 'reads value with hash char (k5)');
+is($cfg->K4, 'V4', 'case sensitive by default (K4)');
+is($cfg->krefrefref, 'v1 ref ref ref', 'recursively resolves refs');
+is($cfg->k6, '$DOLLAR $$ quoting $$');
+
+# Test accessing missing key
+
+throws_ok { $cfg->kmissing }
+  qr/Configuration item "kmissing" is missing/,
+  'missing key caught';
+ok(! $cfg->has('kmissing'), 'knows when key does not exist (kmissing)' );
+is($cfg->kmissing('def'), 'def', 'applies default to missing key (kmissing)');
+ok($cfg->has('kmissing'), 'missing key is created after getting with default (kmissing)' );
+is($cfg->kmissing, 'def', 'missing key has assigned-default value' );
+
+# Void key
+
+is($cfg->kvoid, undef, 'reads key with no value (kvoid)');
+ok($cfg->has('kvoid'), 'knows key with no value exists' );
+is($cfg->kvoid('def'), undef, 'does not assign a default to value-less key (kvoid)');
+
+# Test case-insensitive operations
+
+my $options = { _case_sensitive=>0, };
+$cfg = new LINZ::Config( $options );
+is($cfg->k4, 'V4', 'case insensitive if requested (k4)');
+is($cfg->K4, 'V4', 'case insensitive if requested (K4)');
+ok($cfg->has('k4'), 'has k4');
+ok($cfg->has('K4'), 'has K4');
+ok($cfg->has('k5'), 'has k5');
+ok($cfg->has('K5'), 'has K5 (case-insensitive)');
+ok($cfg->has('k6'), 'has k6');
+
+# Test custom configpath
+
+$options = { _configpath=>'~/Config.cfg.extra', };
+$cfg = new LINZ::Config( $options );
+is($cfg->k4, 'k4 extra', 'reads k4 in extra');
+ok(! $cfg->has('k1'), 'extra config has no k1');
+
+# Test extra config
+
+$options = { _configextra=>'extra', };
+$cfg = new LINZ::Config( $options );
+is($cfg->k1, 'v1', 'finds k1 in base config');
+is($cfg->k4, 'k4 extra', 'k4 in extra overrides base config');
+is($cfg->K4, 'V4', 'K4 is found in base config');
+
+# Test reload with alternative options
+
+TODO: {
+  local $TODO = "See https://github.com/linz/linz_utils_perl/issues/13";
+$cfg = new LINZ::Config;
+is($cfg->k4, 'v4 appears twice', 'k4 from base config (reload)');
+$cfg->reload( { _casesensitive=>0 } );
+is($cfg->k4, 'V4', 'k4 insensitive from base config (reload)');
+$cfg->reload( { _configextra=>'extra' } );
+is($cfg->k4, 'k4 extra', 'k4 insensitive from extra config (reload)');
+is($cfg->K4, 'V4', 'K4 from base config (case-sensitive, reload)');
+$cfg->reload( { _configextra=>'extra', _casesensitive=>0 } );
+is($cfg->K4, 'k4 extra', 'K4 from extra config (case-insensitive, reload)');
+}
+
+done_testing(59);

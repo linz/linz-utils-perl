@@ -5,6 +5,8 @@
 \B\.svn\b
 \B\.git\b
 \B\.cvsignore$
+\B\.gitignore$
+\B\.travis.yml$
 
 # Avoid Makemaker generated and utility files.
 \bMakefile$
@@ -18,6 +20,7 @@
 \bBuild$
 \bBuild.bat$
 \b_build
+\bLINZ-Utils-v.*
 
 # Avoid Devel::Cover generated files
 \bcover_db
@@ -38,3 +41,5 @@
 \B\._
 # Avoid archives of this distribution
 \bLINZ-Utils-[\d\.\_]+
+^MYMETA\.yml$
+^MYMETA\.json$

@@ -1,0 +1,27 @@
+dist: bionic
+language: perl
+
+perl:
+  - "5.30"
+  - "5.28"
+  - "5.26"
+  - "5.24"
+  - "5.22"
+
+before_install:
+  # These are needed to test debian package build
+  - sudo apt-get install
+    debhelper
+    fakeroot
+    libmodule-build-perl
+  # Install packages needed for testing
+  - cpanm Test::Cmd Test::Exception
+
+script:
+  - ./configure
+  - make test
+  - make dist
+  - make distcheck
+  - make disttest
+  # Test building deb package
+  - git clean -dxf && dpkg-buildpackage -b -uc -us

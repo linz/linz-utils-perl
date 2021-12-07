@@ -1,0 +1,13 @@
+*.tar.gz
+Build
+MANIFEST
+MANIFEST.bak
+MYMETA.json
+MYMETA.yml
+_build/
+blib/
+LINZ-Utils-v*/
+META.json
+META.yml
+Makefile
+Makefile.PL

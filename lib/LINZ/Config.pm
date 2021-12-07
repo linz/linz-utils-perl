@@ -2,8 +2,6 @@
 #
 # $Id$
 #
-# linz_bde_loader -  LINZ BDE loader for PostgreSQL
-#
 # Copyright 2011 Crown copyright (c)
 # Land Information New Zealand and the New Zealand Government.
 # All rights reserved
@@ -154,8 +152,14 @@ sub new
 
   my $cfg = bless {}, $class;
 
-  my %opthash =  @opts;
-  my $options = ref($opts[0]) eq 'HASH' ? $opts[0] : \%opthash;
+  my $options;
+  if ( ref($opts[0]) eq 'HASH' ) {
+    $options = $opts[0];
+  } else {
+    # TODO: drop as deprecated way to pass options to constructor
+    my %opthash = @opts;
+    $options = \%opthash;
+  }
 
   $cfg->{_case_sensitive} = 
        ! defined($options->{_case_sensitive}) || $options->{_case_sensitive} 
@@ -294,6 +298,7 @@ sub _loadConfiguration
   foreach my $k (CORE::keys %$cfg)
   {
      my $v = $cfg->{$k};
+     next if not defined $v;
      my $i = 10;
      my $v0 = $v;
      while( $i-- && $v =~ s/(\{\{(?:env\:)?\w+\}\})|{((?:env\:)?\w+)\}/$1 ? $1 : $cfg->_get2($2)/ieg )
@@ -307,6 +312,7 @@ sub _loadConfiguration
   foreach my $k (CORE::keys %$cfg)
   {
      my $v = $cfg->{$k};
+     next if not defined $v;
      $v =~ s/\{\{/{/g;
      $v =~ s/\}\}/}/g;
      $cfg->{$k} = $v;
@@ -332,7 +338,7 @@ sub _loadFile
      die "Invalid configuration item name \"$k\" in $cfgf\n"
         if $k =~ /^_/;
 
-     if( $v =~ /^\<\<\s*(\w+)$/ )
+     if( defined $v && $v =~ /^\<\<\s*(\w+)$/ )
      {
 	my $re = "^\\s*$1\\s*\$";
 	$v = '';

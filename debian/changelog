@@ -1,3 +1,15 @@
+liblinz-utils-perl (1.1.0-1linz~trusty1) trusty; urgency=medium
+
+  * New upstream version
+
+ -- Ivan Mincik <imincik@linz.govt.nz>  Tue, 10 Sep 2019 11:18:27 +0200
+
+liblinz-utils-perl (1.1.0-1linz~bionic1) bionic; urgency=medium
+
+  * New upstream version
+
+ -- Sandro Santilli <strk@kbt.io>  Thu, 08 Aug 2019 11:51:20 +0200
+
 liblinz-utils-perl (1.0.1-1linz~trusty1) trusty; urgency=low
 
   * Packaging for LINZ's Software Repository
