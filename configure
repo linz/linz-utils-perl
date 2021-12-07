@@ -21,5 +21,6 @@ cat <<EOF >> Makefile
 deb:
 	dpkg-buildpackage -b -us -uc
 
-check: test
+check:
+	perl Build test \${RUNTESTFLAGS}
 EOF

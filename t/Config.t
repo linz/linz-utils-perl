@@ -77,6 +77,7 @@ is($cfg->k4, 'v4 appears twice', 'reads overridden value (k4)');
 is($cfg->k5, 'v5 has # no comment', 'reads value with hash char (k5)');
 is($cfg->K4, 'V4', 'case sensitive by default (K4)');
 is($cfg->krefrefref, 'v1 ref ref ref', 'recursively resolves refs');
+is($cfg->k6, '$DOLLAR $$ quoting $$');
 
 # Test accessing missing key
 
@@ -104,6 +105,7 @@ ok($cfg->has('k4'), 'has k4');
 ok($cfg->has('K4'), 'has K4');
 ok($cfg->has('k5'), 'has k5');
 ok($cfg->has('K5'), 'has K5 (case-insensitive)');
+ok($cfg->has('k6'), 'has k6');
 
 # Test custom configpath
 
@@ -135,4 +137,4 @@ $cfg->reload( { _configextra=>'extra', _casesensitive=>0 } );
 is($cfg->K4, 'k4 extra', 'K4 from extra config (case-insensitive, reload)');
 }
 
-done_testing(57);
+done_testing(59);
