@@ -2,17 +2,14 @@ dist: bionic
 language: perl
 
 perl:
-  - "5.34"
-  - "5.32"
-  - "5.30"
-  - "5.28"
+  - '5.34'
+  - '5.32'
+  - '5.30'
+  - '5.28'
 
 before_install:
   # These are needed to test debian package build
-  - sudo apt-get install
-    debhelper
-    fakeroot
-    libmodule-build-perl
+  - sudo apt-get install debhelper fakeroot libmodule-build-perl
   # Install packages needed for testing
   - cpanm Test::Cmd Test::Exception
 
