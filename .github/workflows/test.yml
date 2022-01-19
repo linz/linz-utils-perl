@@ -33,7 +33,7 @@ jobs:
       APT: 'apt-get -o Dpkg::Progress=0 -o Dpkg::Use-Pty=0'
     steps:
       - name: Check out repository
-      - uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2.4.0
 
       - name: Setup perl
         uses: shogo82148/actions-setup-perl@v1
