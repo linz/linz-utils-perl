@@ -14,7 +14,7 @@ before_install:
   - cpanm Test::Cmd Test::Exception
 
 script:
-  - ./configure
+  - ./configure.bash
   - make test
   - make dist
   - make distcheck

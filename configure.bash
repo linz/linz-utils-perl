@@ -1,20 +1,19 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-PERL=perl
+set -o errexit -o noclobber -o nounset -o pipefail
+shopt -s failglob inherit_errexit
 
-cd `dirname $0`
 
-${PERL} Build.PL
-test $? = 0 || exit 1
+
+cd "$(dirname "$0")"
+
+perl Build.PL
 
 ./Build distmeta # builds Makefile.PL (among other things)
-test $? = 0 || exit 1
 
 ./Build manifest # builds MANIFEST
-test $? = 0 || exit 1
 
-${PERL} Makefile.PL
-test $? = 0 || exit 1
+perl Makefile.PL
 
 # Append custom rules
 cat <<EOF >> Makefile
