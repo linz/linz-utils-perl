@@ -5,7 +5,7 @@ shopt -s failglob inherit_errexit
 
 
 
-cd `dirname $0`
+cd "$(dirname "$0")"
 
 perl Build.PL
 test $? = 0 || exit 1
