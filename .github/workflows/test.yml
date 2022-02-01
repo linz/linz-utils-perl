@@ -97,7 +97,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro: [bionic, focal]
+        release: [bionic, focal]
     steps:
       - uses: actions/checkout@v2.4.0
         with:
@@ -124,5 +124,6 @@ jobs:
 
       - uses: linz/linz-software-repository@v7
         with:
+          release: ${{ matrix.release }}
           packagecloud_token: ${{ secrets.LINZCI_PACKAGECLOUD_TOKEN }}
           packagecloud_repository: ${{ env.PACKAGECLOUD_REPOSITORY }}
