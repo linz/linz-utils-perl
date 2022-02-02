@@ -7,8 +7,9 @@ MYMETA.yml
 _build/
 blib/
 /.idea/
-LINZ-Utils-v*/
+LINZ-Utils-*/
 META.json
 META.yml
 Makefile
 Makefile.PL
+/result
