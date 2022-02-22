@@ -45,9 +45,12 @@ jobs:
           - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-latest
+        release: [bionic, focal]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
 
       - name: Setup perl
         uses: shogo82148/actions-setup-perl@v1
@@ -86,11 +89,13 @@ jobs:
       - name: Run distribution test
         run: make disttest
 
-      - name: Build package
-        run: make deb
+      - name: Build packages for all supported versions
+        uses: linz/linz-software-repository@v8
+        with:
+          release: ${{ matrix.release }}
 
       - name: Test packaging
-        run: sudo dpkg -i ../liblinz-utils-perl*.deb
+        run: sudo dpkg -i build-area/liblinz-utils-perl*.deb
 
   package:
     needs: test

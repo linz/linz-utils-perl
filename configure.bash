@@ -17,9 +17,6 @@ perl Makefile.PL
 
 # Append custom rules
 cat <<EOF >> Makefile
-deb:
-	dpkg-buildpackage -b -us -uc
-
 check:
 	perl Build test \${RUNTESTFLAGS}
 EOF
