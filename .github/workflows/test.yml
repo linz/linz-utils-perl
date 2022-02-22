@@ -45,50 +45,57 @@ jobs:
           - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-latest
-    env:
-      APT: 'apt-get -o Dpkg::Progress=0 -o Dpkg::Use-Pty=0'
+        release: [bionic, focal]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
 
       - name: Setup perl
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl }}
 
-      - name: Install dependencies
+      - name: Install debian dependencies
         run: |
-          sudo ${APT} -qq install --no-install-recommends \
+          sudo apt-get --assume-yes -qq install --no-install-recommends \
               cpanminus \
               debhelper \
               fakeroot \
               libtest-exception-perl
-          cpanm Test::Cmd Test::Exception Module::Build
+
+      - name: Install Perl dependencies
+        run: cpanm Test::Cmd Test::Exception Module::Build
+
+      - name: Build perl
+        run: ./configure.bash
 
       - name: Build
-        run: |
-          perl --version
-          ./configure.bash
-          make
+        run: make
 
       - name: Test build
-        run: |
-          make check RUNTESTFLAGS=--verbose
+        run: make check RUNTESTFLAGS=--verbose
 
       - name: Install
-        run: |
-          sudo -E make install
+        run: sudo -E make install
 
-      - name: Test distribution
-        run: |
-          make dist
-          make distcheck
-          make disttest
+      - name: Build distribution
+        run: make dist
+
+      - name: Run distribution checks
+        run: make distcheck
+
+      - name: Run distribution test
+        run: make disttest
+
+      - name: Build packages for all supported versions
+        uses: linz/linz-software-repository@v8
+        with:
+          release: ${{ matrix.release }}
 
       - name: Test packaging
-        run: |
-          make deb
-          sudo dpkg -i ../liblinz-utils-perl*.deb
+        run: sudo dpkg -i build-area/liblinz-utils-perl*.deb
 
   package:
     needs: test
