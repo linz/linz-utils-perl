@@ -90,7 +90,7 @@ jobs:
         run: make disttest
 
       - name: Build packages for all supported versions
-        uses: linz/linz-software-repository@v10
+        uses: linz/linz-software-repository@v11
         with:
           release: ${{ matrix.release }}
 
@@ -130,7 +130,7 @@ jobs:
           fi
           echo "PACKAGECLOUD_REPOSITORY=$PACKAGECLOUD_REPOSITORY" | tee -a $GITHUB_ENV
 
-      - uses: linz/linz-software-repository@v10
+      - uses: linz/linz-software-repository@v11
         with:
           release: ${{ matrix.release }}
           packagecloud_token: ${{ secrets.LINZCI_PACKAGECLOUD_TOKEN }}
