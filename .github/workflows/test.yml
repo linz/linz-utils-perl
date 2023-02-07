@@ -36,10 +36,9 @@ jobs:
           - '5.30'
           - '5.28'
         os:
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-latest
-        release: [bionic, focal]
+        release: [focal]
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.3.0
@@ -98,7 +97,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [bionic, focal]
+        release: [focal]
       max-parallel: 1
     steps:
       - uses: actions/checkout@v3.3.0
