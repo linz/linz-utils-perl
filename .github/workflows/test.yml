@@ -130,7 +130,6 @@ jobs:
           packagecloud_repository: ${{ env.PACKAGECLOUD_REPOSITORY }}
 
   finalise:
-    name: Finalise BDE Schema
     if: always()
     needs:
       - lint
