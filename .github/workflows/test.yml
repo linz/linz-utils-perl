@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3.3.0
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v18
+        uses: cachix/install-nix-action@v19
 
       - name: Run pre-commit hooks
         run: nix-shell --pure --run 'pre-commit run --all-files'
@@ -36,10 +36,9 @@ jobs:
           - '5.30'
           - '5.28'
         os:
-          - ubuntu-18.04
           - ubuntu-20.04
           - ubuntu-latest
-        release: [bionic, focal]
+        release: [focal]
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.3.0
@@ -98,7 +97,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [bionic, focal]
+        release: [focal]
       max-parallel: 1
     steps:
       - uses: actions/checkout@v3.3.0
@@ -129,3 +128,16 @@ jobs:
           release: ${{ matrix.release }}
           packagecloud_token: ${{ secrets.LINZCI_PACKAGECLOUD_TOKEN }}
           packagecloud_repository: ${{ env.PACKAGECLOUD_REPOSITORY }}
+
+  finalise:
+    if: always()
+    needs:
+      - lint
+      - test
+      - package
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
