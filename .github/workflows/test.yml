@@ -129,3 +129,17 @@ jobs:
           release: ${{ matrix.release }}
           packagecloud_token: ${{ secrets.LINZCI_PACKAGECLOUD_TOKEN }}
           packagecloud_repository: ${{ env.PACKAGECLOUD_REPOSITORY }}
+
+  finalise:
+    name: Finalise BDE Schema
+    if: always()
+    needs:
+      - lint
+      - test
+      - package
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
