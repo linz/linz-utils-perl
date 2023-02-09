@@ -2,7 +2,7 @@
 
 All notable changes for the LINZ BDE Uploader are documented in this file.
 
-## [X.Y.Z] - YYYY-MM-DD
+## [1.3.0] - 2023-02-09
 ### Removed
 - Drop Ubuntu 18.04 support after [GitHub dropped their runner support](https://github.com/actions/runner-images/issues/6002).
 
