@@ -1,5 +1,5 @@
 { pkgs, ... }:
-pkgs.buildPerlPackage {
+pkgs.perlPackages.buildPerlPackage {
   pname = "LINZ-Utils";
 
   version = "0.0.1";
