@@ -7,7 +7,7 @@
 # Land Information New Zealand and the New Zealand Government.
 # All rights reserved
 #
-# This program is released under the terms of the new BSD license. See the 
+# This program is released under the terms of the new BSD license. See the
 # LICENSE file for more information.
 #
 ################################################################################
@@ -23,7 +23,7 @@ my $requires = {
     'Sys::Hostname' => 0,
 };
 
-my $version = '1.2.0';
+my $version = '1.3.0';
 if ( `which git` && -d '.git' ) {
   $version = `git describe`;
   chop($version);
