@@ -37,8 +37,10 @@ jobs:
           - '5.28'
         os:
           - ubuntu-20.04
-          - ubuntu-latest
-        release: [focal]
+          - ubuntu-22.04
+        release:
+          - focal
+          - jammy
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.3.0
@@ -92,12 +94,16 @@ jobs:
 
   package:
     needs: test
-    name: Package for Debian
-    runs-on: ubuntu-20.04
+    name: Package for ${{ matrix.distro }} on ${{ matrix.runner }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        release: [focal]
+        include:
+          - release: focal
+            runner: ubuntu-20.04
+          - release: jammy
+            runner: ubuntu-22.04
       max-parallel: 1
     steps:
       - uses: actions/checkout@v3.3.0
