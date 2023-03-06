@@ -94,7 +94,7 @@ jobs:
 
   package:
     needs: test
-    name: Package for ${{ matrix.distro }} on ${{ matrix.runner }}
+    name: Package for ${{ matrix.release }} on ${{ matrix.runner }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
